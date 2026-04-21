@@ -1,0 +1,97 @@
+/*class Node{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=right=null;
+    }
+}*/
+
+// Function should return the root of the bst formed using postorder traversal.
+class GFG {
+    public static int i;
+    public static Node bst(int[] post, int min, int max){
+        if(i < 0){
+            return null;
+        }
+        if(post[i] <= min || post[i] >= max){
+            return null;
+        }
+        Node node = new Node(post[i]);
+        i--;
+        node.right = bst(post, node.data, max);
+        node.left = bst(post, min, node.data);
+        return node;
+    }
+    public static Node constructTree(int post[], int n) {
+        i = n-1;
+        return bst(post, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}
+
+*************************************************************************************************
+
+import java.util.Scanner;
+
+public class Main {
+    public static Scanner scn = new Scanner(System.in);
+
+    public static class TreeNode {
+        int val = 0;
+        TreeNode left = null;
+        TreeNode right = null;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public static int i;
+    public static TreeNode bst(int[] postOrder, int min, int max){
+        if(i < 0){
+            return null;
+        }
+        if(postOrder[i] <= min || postOrder[i] >= max){
+            return null;
+        }
+        TreeNode node = new TreeNode(postOrder[i]);
+        i--;
+        node.right = bst(postOrder, node.val, max);
+        node.left = bst(postOrder, min, node.val);
+        return node;
+    }
+    public static TreeNode CreateTree(int n,int[] postOrder) {
+        i = n-1;
+        return bst(postOrder, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        
+    }
+
+    // input_section=================================================
+
+    public static void display(TreeNode node) {
+        if (node == null) return;
+        StringBuilder sb = new StringBuilder();
+        sb.append((node.left != null ? node.left.val : "."));
+        sb.append("->" + node.val + "<-");
+        sb.append((node.right != null ? node.right.val : "."));
+        System.out.println(sb.toString());
+        display(node.left);
+        display(node.right);
+
+    }
+
+    public static void solve() {
+        int n = scn.nextInt();
+        int[] post = new int[n];
+        for (int i = 0; i < n; i++)
+            post[i] = scn.nextInt();
+
+        TreeNode root = CreateTree(n,post);
+        display(root);
+    }
+
+    public static void main(String[] args) {
+        solve();
+    }
+}
