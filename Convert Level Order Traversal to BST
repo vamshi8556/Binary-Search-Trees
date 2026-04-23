@@ -1,0 +1,41 @@
+class GFG {
+    static class Pair{
+        Node node;
+        int min;
+        int max;
+        Pair(Node node, int min, int max){
+            this.node = node;
+            this.min = min;
+            this.max = max;
+        }
+    }
+    public Node constructBST(int[] arr) {
+        if(arr.length == 0){
+            return null;
+        }
+        LinkedList<Pair> q = new LinkedList<>();
+        Node node = new Node(arr[0]);
+        q.addLast(new Pair(node, Integer.MIN_VALUE, Integer.MAX_VALUE));
+        int i = 1;
+        while(i < arr.length){
+            Pair p = q.peekFirst();
+            if(arr[i] > p.min && arr[i] < p.node.data){
+                Node left = new Node(arr[i]);
+                p.node.left = left;
+                q.addLast(new Pair(left, p.min, p.node.data));
+                i++;
+            }
+            else if(arr[i] > p.node.data && arr[i] < p.max){
+                Node right = new Node(arr[i]);
+                p.node.right = right;
+                q.addLast(new Pair(right, p.node.data, p.max));
+                i++;
+                q.removeFirst();
+            }
+            else{
+                q.removeFirst();
+            }
+        }
+        return node;
+    }
+}
